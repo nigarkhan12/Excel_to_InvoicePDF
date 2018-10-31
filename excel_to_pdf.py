@@ -1,10 +1,15 @@
+from flask import Flask, render_template
 import xlrd
-from jinja2 import Environment
-from jinja2 import FileSystemLoader
+# from pdfs import create_pdf
+from xhtml2pdf import pisa
+from io import StringIO
+import pprint
+
+app = Flask(__name__)
 
 
 class Data(object):
-    ['21AABCG5594P1Z7', '27230', '', 'AMT/AD/2018-19/295', '43383', 'AutoDeal Maintenance Charges', 'From 01-Nov -18 to 30 -Apr-19', '', '', 'Gargson Properties Pvt Ltd.(Capital Ford)', 'A/66, Nayapalli', 'NH 5', '', 'Bhubaneshwar', 'Orissa', '751 003', 'sales@capitalford.net', 'Umesh Ch Panda', '9937231425', '8000', '0', '0', '1440', '9440']
+    # ['21AABCG5594P1Z7', '27230', '', 'AMT/AD/2018-19/295', '43383', 'AutoDeal Maintenance Charges', 'From 01-Nov -18 to 30 -Apr-19', '', '', 'Gargson Properties Pvt Ltd.(Capital Ford)', 'A/66, Nayapalli', 'NH 5', '', 'Bhubaneshwar', 'Orissa', '751 003', 'sales@capitalford.net', 'Umesh Ch Panda', '9937231425', '8000', '0', '0', '1440', '9440']
 
     def __init__(self, GSTIN, Panda_Code, PO, Inv_No, Date, Description, Description1, Description2, Description3, Dealer_Name, Address1, Address2, Address3, City, State, Pin, Email_Address, Contact_person, Contact_nos, Base_Amt, CGST, SGST, IGST, Total):
         self.id = id
@@ -67,59 +72,74 @@ class Data(object):
                self.Contact_person, self.Contact_nos, self.Base_Amt, self.CGST, self.SGST, self.IGST, self.Total))
 
 
-wb = xlrd.open_workbook('For Test.xlsx')
-for sheet in wb.sheets():
-    number_of_rows = sheet.nrows
-    number_of_columns = sheet.ncols
+@app.route("/")
+def convertor():
+    wb = xlrd.open_workbook('For Test.xlsx')
+    for sheet in wb.sheets():
+        number_of_rows = sheet.nrows
+        number_of_columns = sheet.ncols
 
-    items = []
+        items = []
 
-    rows = []
-    for row in range(1, number_of_rows):
-        values = []
-        for col in range(number_of_columns):
-            value = (sheet.cell(row, col).value)
-            try:
-                value = str(int(value))
-            except ValueError:
-                pass
-            finally:
-                values.append(value)
-        print(values)
-        item = Data(*values)
-        items.append(item)
-data_query = {
-            'GSTIN': items.GSTIN,
-            'Panda_Code': items.Panda_Code,
-            'PO': items.PO,
-            'Inv_No': items.Inv_No,
-            'Date': items.Date,
-            'Description': items.Description,
-            'Description1': items.Description1,
-            'Description2': items.Description2,
-            'Description3': items.Description3,
-            'Dealer_Name': items.Dealer_Name,
-            'Address1': items.Address1,
-            'Address2': items.Address2,
-            'Address3': items.Address3,
-            'City': items.City,
-            'State': items.State,
-            'Pin': items.Pin,
-            'Email_Address': items.Email_Address,
-            'Contact_person': items.Contact_person,
-            'Contact_nos': items.Contact_nos,
-            'Base_Amt': items.Base_Amt,
-            'CGST': items.CGST,
-            'SGST': items.SGST,
-            'IGST': items.IGST,
-            'Total': items.Total}
+        rows = []
+        for row in range(1, number_of_rows):
+            values = []
+            for col in range(number_of_columns):
+                value = (sheet.cell(row, col).value)
+                try:
+                    value = str(int(value))
+                except ValueError:
+                    pass
+                finally:
+                    values.append(value)
 
-for item in items:
-    print(item)
-    print("Accessing one single value: {0}".format(item.GSTIN))
+            item = Data(*values)
 
-j2_env = Environment(loader=FileSystemLoader('templates'), trim_blocks=True)
+            items.append(item.__dict__)
+            # pprint.pprint("ITEMS ::: ")
+            # pprint.pprint(items)
+        # data_query = {
+        #             'GSTIN': items.GSTIN,
+        #             'Panda_Code': items.Panda_Code,
+        #             'PO': items.PO,
+        #             'Inv_No': items.Inv_No,
+        #             'Date': items.Date,
+        #             'Description': items.Description,
+        #             'Description1': items.Description1,
+        #             'Description2': items.Description2,
+        #             'Description3': items.Description3,
+        #             'Dealer_Name': items.Dealer_Name,
+        #             'Address1': items.Address1,
+        #             'Address2': items.Address2,
+        #             'Address3': items.Address3,
+        #             'City': items.City,
+        #             'State': items.State,
+        #             'Pin': items.Pin,
+        #             'Email_Address': items.Email_Address,
+        #             'Contact_person': items.Contact_person,
+        #             'Contact_nos': items.Contact_nos,
+        #             'Base_Amt': items.Base_Amt,
+        #             'CGST': items.CGST,
+        #             'SGST': items.SGST,
+        #             'IGST': items.IGST,
+        #             'Total': items.Total}
 
-template = j2_env.get_template('new_index.html')
+    # for item in items:
 
-rendered_file = template.render(data_query)
+    return render_template('example.html', data=items[1])
+
+
+@app.route("/")
+def generate_pdf(item):
+    pdf = StringIO()
+    pisa.CreatePDF(StringIO(item.encode('utf-8')), pdf)
+    return pdf
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
+# j2_env = Environment(loader=FileSystemLoader('templates'), trim_blocks=True)
+
+# template = j2_env.get_template('new_index.html')
+
+# rendered_file = template.render(data_query)
