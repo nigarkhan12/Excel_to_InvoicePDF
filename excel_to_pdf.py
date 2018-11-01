@@ -2,7 +2,7 @@ from flask import Flask, render_template
 import xlrd
 # from pdfs import create_pdf
 from xhtml2pdf import pisa
-from io import StringIO
+from io import StringIO, BytesIO
 import pprint
 
 app = Flask(__name__)
@@ -124,20 +124,28 @@ def convertor():
         #             'IGST': items.IGST,
         #             'Total': items.Total}
 
-    # for item in items:
-
-    return render_template('example.html', data=items[1])
+    for item in items:
+        data = generate_pdf(item)
+    # return render_template('wolters/index.html', data=items[1])
 
 
 @app.route("/")
 def generate_pdf(item):
-    pdf = StringIO()
-    pisa.CreatePDF(StringIO(item.encode('utf-8')), pdf)
-    return pdf
+    pdf = BytesIO()
+    pisa.CreatePDF(render_template('wolters/index.html', data=item), pdf)
+    filename ="try.pdf"
+    file = open(filename, "w+b")
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     app.run(debug=True)
+
+    # filename ="try.pdf"
+    # file = open(filename, "w+b")
+    # pisaStatus = pisa.CreatePDF(html, dest=file)
+    # print(html)
+
+    # return pdf
 # j2_env = Environment(loader=FileSystemLoader('templates'), trim_blocks=True)
 
 # template = j2_env.get_template('new_index.html')

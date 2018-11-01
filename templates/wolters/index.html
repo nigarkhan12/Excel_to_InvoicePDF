@@ -34,7 +34,7 @@
 				{{data.Address1}}
 			</td>
 			<td>Ref. No.</ td>
-			<td>{{}}</td>
+			<td></td>
 		</tr>
 		<tr>
 			<td>Invoice No.</td>
@@ -51,15 +51,15 @@
 		</tr>
 		<tr>
 			<td>CIN</td>
-			<td>{{}}</td>
+			<td></td>
 			<td>Buyer's Order No. (PO)</td>
 			<td>{{data.PO}}</td>
 		</tr>
 		<tr>
 			<td>ARN</td>
-			<td>{{}}</td>
+			<td></td>
 			<td>Buyer's (PO) Date</td>
-			<td>{{}}</td>
+			<td></td>
 		</tr>
 
 	</table>
@@ -79,9 +79,9 @@
 
 		<tr>
 			<td>GSTIN/ Unique ID</td>
-			<td>{{}}</td>
+			<td></td>
 			<td>GSTIN/ Unique ID</td>
-			<td>{{}}</td>
+			<td></td>
 		</tr>
 		<tr>
 			<td>Contact Person</td>
@@ -130,17 +130,17 @@
 		<tr>
 			<td colspan="6" class="align-right">Central GST @</td>
 			<td colspan="2" class="align-center">18.00%</td>
-			<td>1440.00</td>
+			<td>{{data.CGST}}</td>
 		</tr>
 		<tr>
 			<td colspan="6" class="align-right">State GST @</td>
 			<td colspan="2" class="align-center">9.00%</td>
-			<td>1440.00</td>
+			<td>{{data.SGST}}</td>
 		</tr>
 		<tr>
 			<td colspan="6" class="align-right">Cess @</td>
 			<td colspan="2" class="align-center">9.00%</td>
-			<td>1440.00</td>
+			<td>{{data.IGST}}</td>
 		</tr>
 		<tr>
 			<td class="text-black"  colspan="6"><b class="subheadings">Total amount in
@@ -148,7 +148,7 @@
 			Nine Thousand Four Hundred and Fourty Rupees Only
 			</td>
 			<th class="text-black" colspan="1">Total</th>
-			<th class="text-black" colspan="2">9,440.00</th>
+			<th class="text-black" colspan="2">{{data.Total}}</th>
 		</tr>
 		<tr>
 			<td colspan="9" ><b>Declartion:</b>We declare that this invoice shows the actual price of the goods described/services
