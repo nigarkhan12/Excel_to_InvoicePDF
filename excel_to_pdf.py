@@ -4,6 +4,9 @@ import xlrd
 from xhtml2pdf import pisa
 from io import StringIO, BytesIO
 import pprint
+import pdfkit
+import os
+import shutil
 
 app = Flask(__name__)
 
@@ -72,69 +75,43 @@ class Data(object):
                self.Contact_person, self.Contact_nos, self.Base_Amt, self.CGST, self.SGST, self.IGST, self.Total))
 
 
-@app.route("/")
-def convertor():
+def convertor(id):
     wb = xlrd.open_workbook('For Test.xlsx')
+    count = 0
+    items = []
     for sheet in wb.sheets():
         number_of_rows = sheet.nrows
         number_of_columns = sheet.ncols
-
-        items = []
-
         rows = []
         for row in range(1, number_of_rows):
             values = []
-            for col in range(number_of_columns):
-                value = (sheet.cell(row, col).value)
-                try:
-                    value = str(int(value))
-                except ValueError:
-                    pass
-                finally:
-                    values.append(value)
+            count += 1
+            if count == int(id):
+                for col in range(number_of_columns):
+                    value = (sheet.cell(row, col).value)
+                    try:
+                        value = str(int(value))
+                    except ValueError:
+                        pass
+                    finally:
+                        values.append(value)
+                item = Data(*values).__dict__
+                item['id'] = count
+                items.append(item)
+    return items
 
-            item = Data(*values)
-
-            items.append(item.__dict__)
-            # pprint.pprint("ITEMS ::: ")
-            # pprint.pprint(items)
-        # data_query = {
-        #             'GSTIN': items.GSTIN,
-        #             'Panda_Code': items.Panda_Code,
-        #             'PO': items.PO,
-        #             'Inv_No': items.Inv_No,
-        #             'Date': items.Date,
-        #             'Description': items.Description,
-        #             'Description1': items.Description1,
-        #             'Description2': items.Description2,
-        #             'Description3': items.Description3,
-        #             'Dealer_Name': items.Dealer_Name,
-        #             'Address1': items.Address1,
-        #             'Address2': items.Address2,
-        #             'Address3': items.Address3,
-        #             'City': items.City,
-        #             'State': items.State,
-        #             'Pin': items.Pin,
-        #             'Email_Address': items.Email_Address,
-        #             'Contact_person': items.Contact_person,
-        #             'Contact_nos': items.Contact_nos,
-        #             'Base_Amt': items.Base_Amt,
-        #             'CGST': items.CGST,
-        #             'SGST': items.SGST,
-        #             'IGST': items.IGST,
-        #             'Total': items.Total}
-
-    for item in items:
-        data = generate_pdf(item)
     # return render_template('wolters/index.html', data=items[1])
 
 
-@app.route("/")
-def generate_pdf(item):
-    pdf = BytesIO()
-    pisa.CreatePDF(render_template('wolters/index.html', data=item), pdf)
-    filename ="try.pdf"
-    file = open(filename, "w+b")
+@app.route("/<id>")
+def index(id):
+    data = convertor(int(id))
+    file_name = "invoice-" + id + ".pdf"
+    pdfkit.from_string(render_template('wolters/index.html', data=data), file_name)
+    source = '/home/nigar/Desktop/Excel_to_pdf/' + file_name
+    destination = '/home/nigar/Desktop/Excel_to_pdf/pdf/' + file_name
+    shutil.move(source, destination)
+    return render_template('wolters/index.html', data=data)
 
 
 if __name__ == '__main__':
