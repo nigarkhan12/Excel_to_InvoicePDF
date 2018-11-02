@@ -116,15 +116,3 @@ def index(id):
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-    # filename ="try.pdf"
-    # file = open(filename, "w+b")
-    # pisaStatus = pisa.CreatePDF(html, dest=file)
-    # print(html)
-
-    # return pdf
-# j2_env = Environment(loader=FileSystemLoader('templates'), trim_blocks=True)
-
-# template = j2_env.get_template('new_index.html')
-
-# rendered_file = template.render(data_query)
