@@ -1,6 +1,5 @@
 from flask import Flask, render_template
 import xlrd
-# from pdfs import create_pdf
 from xhtml2pdf import pisa
 from io import StringIO, BytesIO
 import pprint
@@ -12,7 +11,6 @@ app = Flask(__name__)
 
 
 class Data(object):
-    # ['21AABCG5594P1Z7', '27230', '', 'AMT/AD/2018-19/295', '43383', 'AutoDeal Maintenance Charges', 'From 01-Nov -18 to 30 -Apr-19', '', '', 'Gargson Properties Pvt Ltd.(Capital Ford)', 'A/66, Nayapalli', 'NH 5', '', 'Bhubaneshwar', 'Orissa', '751 003', 'sales@capitalford.net', 'Umesh Ch Panda', '9937231425', '8000', '0', '0', '1440', '9440']
 
     def __init__(self, GSTIN, Panda_Code, PO, Inv_No, Date, Description, Description1, Description2, Description3, Dealer_Name, Address1, Address2, Address3, City, State, Pin, Email_Address, Contact_person, Contact_nos, Base_Amt, CGST, SGST, IGST, Total):
         self.id = id
@@ -100,14 +98,21 @@ def convertor(id):
                 items.append(item)
     return items
 
-    # return render_template('wolters/index.html', data=items[1])
-
 
 @app.route("/<id>")
 def index(id):
-    data = convertor(int(id))
+    data = convertor(int(id))[0]
     file_name = "invoice-" + id + ".pdf"
-    pdfkit.from_string(render_template('wolters/index.html', data=data), file_name)
+    options = {
+        'page-size': 'A4',
+        'margin-top': '0.75in',
+        'margin-right': '0.75in',
+        'margin-bottom': '0.75in',
+        'margin-left': '0.75in',
+    }
+    css = os.path.join('/home/nigar/Desktop/Excel_to_pdf/static/assets/', 'style.css')
+    html = render_template('wolters/index.html', data=data)
+    pdfkit.from_string(html, file_name, css=css)
     source = '/home/nigar/Desktop/Excel_to_pdf/' + file_name
     destination = '/home/nigar/Desktop/Excel_to_pdf/pdf/' + file_name
     shutil.move(source, destination)

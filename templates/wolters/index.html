@@ -4,6 +4,8 @@
 <head>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+	<meta name="pdfkit-page-size" content="Legal"/>
+  <meta name="pdfkit-orientation" content="Landscape"/>
 	<title>Excel to Pdf</title>
 	<link rel="stylesheet" type="text/css" href="/static/assets/style.css">
 </head>
@@ -31,23 +33,23 @@
 		</tr>
 		<tr>
 			<td colspan="2" rowspan="3">
-				{{data.Address1}}
+				{{ data.Address1 }}
 			</td>
 			<td>Ref. No.</ td>
 			<td></td>
 		</tr>
 		<tr>
 			<td>Invoice No.</td>
-			<td>{{data.Inv_No}}</td>
+			<td>{{ data.Inv_No }}</td>
 		<tr>
 			<td>Invoice Date</td>
-			<td>{{data.Date}}</td>
+			<td>{{ data.Date }}</td>
 		</tr>
 		<tr>
 			<td>GSTIN/ Unique ID</td>
-			<td>{{data.GSTIN}}<td>
+			<td>{{ data.GSTIN }}<td>
 			<td>Dealer/Panda Code</td>
-			<td>{{data.Panda_Code}}</td>
+			<td>{{ data.Panda_Code }}</td>
 		</tr>
 		<tr>
 			<td>CIN</td>
