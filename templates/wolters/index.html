@@ -6,7 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 	<meta name="pdfkit-page-size" content="Legal"/>
   <meta name="pdfkit-orientation" content="Landscape"/>
-	<title>Excel to Pdf</title>
+	<title>Excel_to_pdf</title>
 	<link rel="stylesheet" type="text/css" href="/static/assets/style.css">
 </head>
 
@@ -24,8 +24,8 @@
 		</div>
 
 	</div>
-	<div class="">
-		<span class="TAX INVOICE" style="border:1px solid #000;">TAX INVOICE</span>
+	<div class="center">
+		<h1><b>TAX INVOICE</b></h1>
 	</div>
 	<table>
 		<tr>
@@ -33,23 +33,24 @@
 		</tr>
 		<tr>
 			<td colspan="2" rowspan="3">
-				{{ data.Address1 }}
+				<b>{{data.Dealer_Name}}<br>
+				   {{data.Address1}}
 			</td>
 			<td>Ref. No.</ td>
 			<td></td>
 		</tr>
 		<tr>
 			<td>Invoice No.</td>
-			<td>{{ data.Inv_No }}</td>
+			<td>{{data.Inv_No}}</td>
 		<tr>
 			<td>Invoice Date</td>
-			<td>{{ data.Date }}</td>
+			<td>{{data.Date}}</td>
 		</tr>
 		<tr>
 			<td>GSTIN/ Unique ID</td>
-			<td>{{ data.GSTIN }}<td>
+			<td>{{data.GSTIN}}</td>
 			<td>Dealer/Panda Code</td>
-			<td>{{ data.Panda_Code }}</td>
+			<td>{{data.Panda_Code}}</td>
 		</tr>
 		<tr>
 			<td>CIN</td>
@@ -72,13 +73,15 @@
 		</tr>
 		<tr>
 			<td colspan="2">
-				{{data.Address2}}
+				{{data.Address2}}<br>
+				{{data.City}}<br>
+				{{data.State}}-{{data.Pin}}
 			</td>
 			<td colspan="2">
-				{{data.Address3}}
+				{{data.Address3}}<br>
+				{{data.City}}<br>
+				{{data.State}}-{{data.Pin}}
 		</tr>
-
-
 		<tr>
 			<td>GSTIN/ Unique ID</td>
 			<td></td>
@@ -89,7 +92,7 @@
 			<td>Contact Person</td>
 			<td>{{data.Contact_person}}</td>
 			<td>Contact Person</td>
-			<td>{{data.PO}}</td>
+			<td>{{data.Contact_person}}</td>
 		</tr>
 		<tr>
 			<td>Contact Number</td>
@@ -101,7 +104,7 @@
 	</table>
 	<table>
 		<tr>
-			<th colspan="3">Description of Goods / Services</th>
+			<th colspan="3">onDescription of Goods / Services</th>
 			<th>HSN & SAC</th>
 			<th>Qty</th>
 			<th>Unit</th>
@@ -111,19 +114,19 @@
 		</tr>
 		<tr>
 			<td colspan="9">
-				{{data.Description}}
+				<b>{{data.Description}}
 			</td>
 		</tr>
 		<tr>
 			<td colspan="3">
 				{{data.Description1}}
 			</td>
-			<td>998319</td>
-			<td>1</td>
-			<td>Nos.</td>
-			<td>8000</td>
-			<td>0</td>
-			<td>8000.00</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
 		</tr>
 		<tr>
 			<th colspan="8" style="padding:6px 80px;" class="align-right text-black">Subtotal (Taxable Value)</th>
@@ -147,18 +150,18 @@
 		<tr>
 			<td class="text-black"  colspan="6"><b class="subheadings">Total amount in
 				Words</b><br>
-			Nine Thousand Four Hundred and Fourty Rupees Only
+
 			</td>
 			<th class="text-black" colspan="1">Total</th>
 			<th class="text-black" colspan="2">{{data.Total}}</th>
 		</tr>
 		<tr>
-			<td colspan="9" ><b>Declartion:</b>We declare that this invoice shows the actual price of the goods described/services
+			<td colspan="9"><b>Declartion:</b>We declare that this invoice shows the actual price of the goods described/services
 				rendered and that all are true and correct.</td>
 		</tr>
 		<tr>
 			<td colspan="5">
-				<span class="subheadings">Comments:</span> Any indirect taxes are required to be borne by the customer<br>
+				<span class="subheadings"><b>Comments:</b></span> Any indirect taxes are required to be borne by the customer<br>
 				<span class="subheadings">Our Bank Details:</span>
 				Citi Bank, N.A.<br>
 				A/c. No.0520392009<br>
