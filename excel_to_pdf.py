@@ -2,7 +2,6 @@ from flask import Flask, render_template
 import xlrd
 from xhtml2pdf import pisa
 from io import StringIO, BytesIO
-import pprint
 import pdfkit
 import os
 import shutil
