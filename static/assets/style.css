@@ -52,7 +52,8 @@ body{
 	font-family: Arial, Helvetica, sans-serif;
 	padding: 20px;
 	font-size: 14px;
-
+  page-break-before: avoid;
+  zoom: 70%
 }
 address{
 	line-height: 20px;

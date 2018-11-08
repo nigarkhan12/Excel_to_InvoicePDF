@@ -1,7 +1,7 @@
 from flask import Flask, render_template
 import xlrd
-from xhtml2pdf import pisa
-from io import StringIO, BytesIO
+# from xhtml2pdf import pisa
+# from io import StringIO, BytesIO
 import pdfkit
 import os
 import shutil
@@ -72,10 +72,13 @@ class Data(object):
                self.Contact_person, self.Contact_nos, self.Base_Amt, self.CGST, self.SGST, self.IGST, self.Total))
 
 
-def convertor(id):
+def convertor():
     wb = xlrd.open_workbook('For Test.xlsx')
     count = 0
     items = []
+    options = {
+        'quiet': '',
+    }
     for sheet in wb.sheets():
         number_of_rows = sheet.nrows
         number_of_columns = sheet.ncols
@@ -83,40 +86,28 @@ def convertor(id):
         for row in range(1, number_of_rows):
             values = []
             count += 1
-            if count == int(id):
-                for col in range(number_of_columns):
-                    value = (sheet.cell(row, col).value)
-                    try:
-                        value = str(int(value))
-                    except ValueError:
-                        pass
-                    finally:
-                        values.append(value)
-                item = Data(*values).__dict__
-                item['id'] = count
-                items.append(item)
-    return items
-
-
-@app.route("/<id>")
-def index(id):
-    data = convertor(int(id))[0]
-    file_name = "invoice-" + id + ".pdf"
-    options = {
-        'page-size': 'A4',
-        'margin-top': '0.75in',
-        'margin-right': '0.75in',
-        'margin-bottom': '0.75in',
-        'margin-left': '0.75in',
-    }
-    css = os.path.join('/home/nigar/Desktop/Excel_to_pdf/static/assets/', 'style.css')
-    html = render_template('wolters/index.html', data=data)
-    pdfkit.from_string(html, file_name, css=css)
-    source = '/home/nigar/Desktop/Excel_to_pdf/' + file_name
-    destination = '/home/nigar/Desktop/Excel_to_pdf/pdf/' + file_name
-    shutil.move(source, destination)
-    return render_template('wolters/index.html', data=data)
+            file_name = "invoice-" + str(count) + ".pdf"
+            for col in range(number_of_columns):
+                value = (sheet.cell(row, col).value)
+                try:
+                    value = str(int(value))
+                except ValueError:
+                    pass
+                finally:
+                    values.append(value)
+            item = Data(*values).__dict__
+            item['id'] = count
+            items.append(item)
+            with app.app_context():
+                css = os.path.join('/home/nigar/Desktop/Excel_to_pdf/static/assets/', 'style.css')
+                html = render_template('wolters/index.html', data=item)
+                pdfkit.from_string(html, file_name, css=css, options=options)
+                source = '/home/nigar/Desktop/Excel_to_pdf/' + file_name
+                destination = '/home/nigar/Desktop/Excel_to_pdf/pdf/' + file_name
+                shutil.move(source, destination)
+    print("Invoice Successfully Generated.")
+    return "Success"
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    convertor()
