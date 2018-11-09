@@ -1,10 +1,9 @@
 from flask import Flask, render_template
 import xlrd
-# from xhtml2pdf import pisa
-# from io import StringIO, BytesIO
 import pdfkit
 import os
 import shutil
+from tqdm import tqdm
 
 app = Flask(__name__)
 
@@ -83,7 +82,7 @@ def convertor():
         number_of_rows = sheet.nrows
         number_of_columns = sheet.ncols
         rows = []
-        for row in range(1, number_of_rows):
+        for row in tqdm(range(1, number_of_rows)):
             values = []
             count += 1
             file_name = "invoice-" + str(count) + ".pdf"
