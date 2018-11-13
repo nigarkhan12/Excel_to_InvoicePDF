@@ -4,7 +4,7 @@ import pdfkit
 import os
 import shutil
 from tqdm import tqdm
-
+config = pdfkit.configuration(wkhtmltopdf="D:\\Excel_to_pdf\\build\\exe.win-amd64-3.6\\wkhtmltox\\bin\\wkhtmltopdf.exe")
 app = Flask(__name__)
 
 
@@ -72,7 +72,7 @@ class Data(object):
 
 
 def convertor():
-    wb = xlrd.open_workbook('For Test.xlsx')
+    wb = xlrd.open_workbook('Excel/For Test.xlsx')
     count = 0
     items = []
     options = {
@@ -98,11 +98,11 @@ def convertor():
             item['id'] = count
             items.append(item)
             with app.app_context():
-                css = os.path.join('/home/nigar/Desktop/Excel_to_pdf/static/assets/', 'style.css')
+                css = os.path.join('./static/assets/', 'style.css')
                 html = render_template('wolters/index.html', data=item)
-                pdfkit.from_string(html, file_name, css=css, options=options)
-                source = '/home/nigar/Desktop/Excel_to_pdf/' + file_name
-                destination = '/home/nigar/Desktop/Excel_to_pdf/pdf/' + file_name
+                pdfkit.from_string(html, file_name, css=css, options=options, configuration=config)
+                source = './' + file_name
+                destination = './pdf/' + file_name
                 shutil.move(source, destination)
     print("Invoice Successfully Generated.")
     return "Success"
