@@ -9,3 +9,6 @@ xlrd==1.1.0
 shutil
 wkhtml
 cx_Freeze
+Install Visual Studio Community to install the missing libraries for C++,
+to be used by cx_Freeze to compile Python code and generates the executable object code.
+Please select Visual C++ and Python Tools options respectively.
