@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+	<style type="text/css" media="screen"></style>
+	<style type="text/css" media="print"></style>
+	<meta name="pdfkit-page-size" content="Legal"/>
+  	<meta name="pdfkit-orientation" content="Portrait"/>
+	<title>Excel_to_pdf</title>
+	<link rel="stylesheet" type="text/css" href="../static/assets/style.css">
+</head>
+
+<body>
+	<div class="heading">
+		<img src="{{ data.img_logo }}" width="400" height="100" />
+		<div  class="address">	
+		<address>
+			Acess Matrix Technologies Pvt Ltd.<br>
+			No.,2nd Floor,L-type,Sector XI, Lic colony,<br>
+			9th B Main,(th cross,Jeevabimangar,<br>
+			HAL 3rd stage,Bangalore-560 075<br>
+			www.acessmatrix.in<br>
+		</address>
+		</div>
+
+	</div>
+	<div class="center">
+		<h1><b>TAX INVOICE</b></h1>
+	</div>
+	<table>
+		<tr>
+			<th colspan="4">Office and invoice details</th>
+		</tr>
+		<tr>
+			<td colspan="2" rowspan="3">
+				<b>Acess Matrix Technologies Pvt Ltd.</b><br>
+				No.,2nd Floor,L-type,Sector XI, Lic colony,<br>
+				9th B Main,(th cross,Jeevabimangar,<br>
+				HAL 3rd stage,Bangalore-560 075- Ph: +919886077791<br>
+			</td>
+			<td>Ref. No.</td>
+			<td>{{data.Ref_No}}</td>
+		</tr>
+		<tr>
+			<td>Invoice No.</td>
+			<td>{{data.INV_No}}</td>
+		<tr>
+			<td>Invoice Date</td>
+			<td>{{data.Inv_Date}}</td>
+		</tr>
+		<tr>
+			<td>GSTIN/ Unique ID</td>
+			<td>29AAECA6719R1ZX</td>
+			<td>Dealer/Panda Code</td>
+			<td>{{data.Panda_Code}}</td>
+		</tr>
+		<tr>
+			<td>CIN</td>
+			<td>U72200KA2004PTC060177</td>
+			<td>Buyer's Order No. (PO)</td>
+			<td>{{data.PO}}</td>
+		</tr>
+		<tr>
+			<td>ARN</td>
+			<td>AA290117011345I</td>
+			<td>Buyer's (PO) Date</td>
+			<td>{{PO_Date}}</td>
+		</tr>
+
+	</table>
+	<table>
+		<tr>
+			<th colspan="2">Details of Receiver (Billed to)</th>
+			<th colspan="2">Details of Consignee (Shipped to)</th>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<b>{{data.Dealer_Name}}</b><br>
+				{{data.Address1}}<br>
+				{{data.Address2}}<br>
+				{{data.Address3}}<br>
+				{{data.City}}<br>
+				{{data.State}}-{{data.Pincode}}
+			</td>
+			<td colspan="2">
+				<b>{{data.Dealer_Name}}</b><br>
+				{{data.Address1}}<br>
+				{{data.Address2}}<br>
+				{{data.Address3}}<br>
+				{{data.City}}<br>
+				{{data.State}}-{{data.Pincode}}
+		</tr>
+		<tr>
+			<td>GSTIN/ Unique ID</td>
+			<td>{{data.GSTIN}}</td>
+			<td>GSTIN/ Unique ID</td>
+			<td>{{data.GSTIN}}</td>
+		</tr>
+		<tr>
+			<td>Contact Person</td>
+			<td>{{data.Contact_person}}</td>
+			<td>Contact Person</td>
+			<td>{{data.Contact_person}}</td>
+		</tr>
+		<tr>
+			<td>Contact Number</td>
+			<td>{{data.Contact_No}}</td>
+			<td>Contact Number</td>
+			<td>{{data.Contact_No}}</td>
+		</tr>
+
+	</table>
+	<table>
+		<tr>
+			<th class="padding" colspan="2">Description of Goods / Services</th>
+			<th class="padding">HSN & SAC</th>
+			<th class="padding">Qty</th>
+			<th class="padding">Unit</th>
+			<th class="padding">Unit Price<br />(INR)</th>
+			<th class="padding" colspan="2">Discount<br />(INR)</th>
+			<th class="padding" colspan="2">Total<br />(INR)</th>
+		</tr>
+		<tr>
+			<td colspan="9">
+				<b>{{data.Description}}</b>
+			</td>
+		</tr>
+		<tr>
+			<td id="a" colspan="2">
+				{{data.Description_1}}
+			</td>
+			<td id="a">{{data.HSN}}</td>
+			<td id="a">{{data.Qty}}</td>
+			<td id="a">{{data.Unit}}</td>
+			<td id="a">{{data.Unit_Price}}</td>
+			<td colspan="2" id="a">   0</td> 
+			<td id="a">{{data.Subtotal}}</td>
+		</tr>
+		<tr>
+			<th colspan="8" style="padding:6px 80px;" class="align-right text-black"><b>Subtotal (Taxable Value)</b></th>
+			<th id="a" style="background: #ccc; color:#000;"><b>{{data.Subtotal}}</b></th>
+		</tr>
+		<tr>
+			<td colspan="6" class="align-right">Integrated GST @</td>
+			<td colspan="2" class="align-center">18.00%</td>
+			<td id="a">{{data.IGST}}</td>
+		</tr>
+		<tr>
+			<td colspan="6" class="align-right">Central GST @</td>
+			<td colspan="2" class="align-center">9.00%</td>
+			<td id="a">{{data.CGST}}</td>
+		</tr>
+		<tr>
+			<td colspan="6" class="align-right">State GST @</td>
+			<td colspan="2" class="align-center">9.00%</td>
+			<td id="a">{{data.SGST}}</td>
+		</tr>
+		<tr>
+			<td colspan="6" class="align-right">Cess @</td>
+			<td colspan="2" class="align-center">-</td>
+			<td class="align-center">0.00</td>
+		</tr>
+		<tr>
+			<td class="text-black"  colspan="6"><b class="subheadings">Total amount in
+				Words:-  </b><br>
+			{{data.Total_amount_In_Words}}<br>
+
+			</td>
+			<th class="text-black" colspan="1"><b>Total</b></th>
+			<th class="text-black" colspan="2"><b>{{data.Total}}</b></th>
+		</tr>
+		<tr>
+			<td colspan="9"><b>Declartion:</b>We declare that this invoice shows the actual price of the goods described/services
+				rendered and that all are true and correct.</td>
+		</tr>
+		<tr>
+			<td colspan="5">
+				<span class="subheadings"><b>Comments:</b></span> Any indirect taxes are required to be borne by the customer<br>
+				<span class="subheadings"><b>Our Bank Details:</b></span>
+				Citi Bank, N.A.<br>
+				A/c. No.0520392009<br>
+				IFS Code: CITI0000004<br>
+				M.G Road Branch,<br>
+				Bangalore<br>
+			</td>
+			<td colspan="4" id="seal_section">
+				<b>For Access Matrix Technologies Pvt. Ltd.</b><br/>
+				<img src="{{ data.img_seal }}" width="100" height="100" /><br/>
+				<b>Authorized Signatory</b>	
+			</td>
+		</tr>
+	</table>
+	<p>PAN <b>AAECA6719R</b> (Please quote the PAN No. in all the TDS certificates
+		issued in relation to the invoice) “We hereby certify that our Registration Certificate under the<b> GSTIN</b> is in force on the date on which the sale of goods specified in this bill is made by us. And that
+		the transaction of sale covered by this bill has been effected by us in the regular course of our business”</p><br>
+	<p>Delay in Payment of this Invoice or part thereof will attract interest @ 18% p.a.</p>
+</body>
+
+</html>
